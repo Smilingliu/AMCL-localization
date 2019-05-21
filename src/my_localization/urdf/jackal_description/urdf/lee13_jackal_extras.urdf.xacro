@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!-- Create a fixed joint to connect the mesh to the rest of the robot
+     Paste this whole file in chester_jackal_extras.urdf.xacro -->
+  
+<robot
+ xmlns:xacro="http://ros.org/wiki/xacro">
+
+<!-- Custom Sensors. URDF must be used on both host and the jackal -->
+
+<!-- Axis Camera -->
+  <link name="axis">
+   <visual>
+    <origin xyz="0.095 0 0.075" rpy="0 0 1.57079632679"/>
+    <geometry>
+    <mesh filename="package://jackal_description/meshes/axis.dae"/>
+    </geometry> 
+   </visual>
+  </link>
+
+  <joint name="axis_to_front_mount" type="fixed">
+    <parent link="front_mount"/>
+    <child link="axis"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+<!-- LMS111 Lidar-->
+  <link name="laser">
+   <visual>
+    <origin xyz="0 0 0" rpy="0 0 -1.57079632679"/>
+    <geometry>
+    <mesh filename="package://jackal_description/meshes/lms111.dae"/>
+    </geometry> 
+   </visual>
+  </link>
+
+  <joint name="lms111_to_front_mount" type="fixed">
+    <parent link="mid_mount"/>
+    <child link="laser"/>
+    <origin xyz="0.05 0 0.14" rpy="0 0 0"/>
+  </joint> 
+
+</robot>
+
+
+

@@ -1,0 +1,21 @@
+roslaunch my_localization world.launch
+roslaunch my_localization amcl.launch
+以下三个命令自选一个：
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/cmd_vel
+roslaunch ball_chaser ball_chaser.launch
+rostopic pub /move_base_simple/goal  geometry_msgs/PoseStamped \ '{header: {frame_id: "map"},pose: {position:{x: 1.0,y: 0,z: 0},orientation: {x: 0,y: 0,z: 0,w: 1}}}'
+参数作用：
+（1）这条指令是发布在/move_base_simple/goal话题上的，消息类型为geometry_msgs/PoseStamped 
+（2）geometry_msgs/PoseStamped消息包含header、pose、orientation三部分 
+（3）pose的含义：位置，以米为单位，此处pose: {position:{x: 1.0,y: 0,z: 0}就是指目标位置在（1,0,0）处 
+（4）orientation:方向，使用四元数表示，表示机器人到达目的地后的姿态，此处orientation: {x: 0,y: 0,z: 0,w: 1}表示机器人到达（1,0,0）点后，姿态（朝向）保持不变，为啥这个四元数长相为（0,0,0,1）？文章最后再详细说一下。 
+（5）上述命令中有一个“\”，这个”\”在linux命令行中意味着换一行再写，手动输入命令时，回车换行会出现续行提示符”>”,《ROS入门实例》里是这样写的，这里完全复制就行并回车执行就行，你也可以不写这个\，不影响命令的执行。 
+（6）写参数时，比如x: 0，注意冒号和0之间有一个空格。
+
+
+
+Select odom for fixed frame
+Click the “Add” button and
+add RobotModel: this would add the robot itself to RViz
+add Map and select first topic/map: the second and third topics in the list will show the global costmap, and the local costmap. Both can be helpful to tune your parameters
+add PoseArray and select topic/particlecloud: this will display a set of arrows around the robot

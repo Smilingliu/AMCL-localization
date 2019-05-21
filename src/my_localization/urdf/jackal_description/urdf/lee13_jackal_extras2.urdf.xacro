@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!-- Create a fixed joint to connect the mesh to the rest of the robot
+     Paste this whole file in chester_jackal_extras.urdf.xacro -->
+  
+<robot
+ xmlns:xacro="http://ros.org/wiki/xacro">
+<xacro:property name="M_PI" value="3.1415926"/>
+<xacro:property name="kinect_cam_py" value="-0.0125"/>
+<!-- Custom Sensors. URDF must be used on both host and the jackal starleth/odometry-->
+
+<!-- Axis Camera -->
+<!-- <link name="axis">
+   <visual>
+    <origin xyz="0.095 0 0.075" rpy="0 0 1.57079632679"/>
+    <geometry>
+    <mesh filename="package://jackal_description/meshes/axis.dae"/>
+    </geometry> 
+   </visual>
+  </link>
+
+  <joint name="axis_to_front_mount" type="fixed">
+    <parent link="front_mount"/>
+    <child link="axis"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>-->
+
+<!-- kinect -->
+ <link name="sensor">
+   <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+    <mesh filename="package://jackal_description/meshes/kinect.dae"/>
+    </geometry> 
+   </visual>
+  </link>
+
+  <joint name="kinect_to_front_mount" type="fixed">
+    <parent link="front_mount"/>
+    <child link="sensor"/>
+    <origin xyz="0.05 0 0.2" rpy="0 ${30*M_PI/180} 0"/>
+  </joint>
+
+  <link name="camera_rgb_frame"/>
+  <joint name="camera_rgb_joint" type="fixed">
+     <origin xyz="-0 -0.0125 0" rpy="0 0 0"/>
+     <parent link="sensor"/>
+     <child link="camera_rgb_frame" />
+  </joint>
+
+<link name="camera_rgb_optical_frame"/>
+    <joint name="camera_rgb_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+      <parent link="camera_rgb_frame" />
+      <child link="camera_rgb_optical_frame" />
+    </joint>
+    
+
+<link name="camera_depth_frame"/>
+    <joint name="camera_depth_joint" type="fixed">
+	  <origin xyz="0 ${2 * -kinect_cam_py} 0" rpy="0 0 0" />
+	  <parent link="camera_rgb_frame" />
+	  <child link="camera_depth_frame" />
+	</joint>
+	
+
+	<link name="camera_depth_optical_frame"/>
+	<joint name="camera_depth_optical_joint" type="fixed">
+	  <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+	  <parent link="camera_depth_frame" />
+	  <child link="camera_depth_optical_frame" />
+	</joint>
+
+
+
+<!-- LMS111 Lidar-->
+  <link name="laser">
+   <visual>
+    <origin xyz="0 0 0" rpy="0 0 -1.57079632679"/>
+    <geometry>
+    <mesh filename="package://jackal_description/meshes/lms111.dae"/>
+    </geometry> 
+   </visual>
+  </link>
+
+  <joint name="lms111_to_front_mount" type="fixed">
+    <parent link="mid_mount"/>
+    <child link="laser"/>
+    <origin xyz="0.05 0 0.14" rpy="0 0 0"/>
+  </joint> 
+
+
+
+</robot>
+
+
+
