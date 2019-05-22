@@ -16,5 +16,5 @@ rosrun teleop_twist_keyboard teleop_twist_keyboard.py cmd_vel:=/cmd_vel
 roslaunch ball_chaser ball_chaser.launch
 rostopic pub /move_base_simple/goal  geometry_msgs/PoseStamped \ '{header: {frame_id: "map"},pose: {position:{x: 1.0,y: 0,z: 0},orientation: {x: 0,y: 0,z: 0,w: 1}}}'
 
-
+![picture](https://github.com/Smilingliu/AMCL-localization/blob/master/000001.png)
 
